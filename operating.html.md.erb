@@ -501,14 +501,14 @@ The broker will try and wait for any incomplete https requests to complete befor
 
  <p class="note"><strong>Note</strong>: This feature requires BOSH Director v261 or later.</p>
 
-Service Instance lifecycle errands allow additional short lived jobs to be run as part of service instance deployment. A deployment is only considered successful if the lifecycle errand successfully exits.
+Service Instance lifecycle errands allow additional short lived jobs to be run as part of service instance deployment. A deployment is only considered successful if the lifecycle errands successfully exit.
 
 The service adapter must offer this errand as part of the service instance deployment.
 
 ODB supports the following lifecycle errands:
 
-- `post_deploy` - Runs after the creation or updating of a service instance. An example use case is running a health check to ensure the service instance is functioning. See the workflow [here](./concepts.html#post-deploy)
-- `pre_delete` - Runs before the deletion of a service instance. An example use case is cleaning up data prior to a service shutdown. See the workflow [here](./concepts.html#pre-delete)
+- `post_deploy` - Run after the creation or updating of a service instance. An example use case is running a health check to ensure the service instance is functioning. See the workflow [here](./concepts.html#post-deploy)
+- `pre_delete` - Run before the deletion of a service instance. An example use case is cleaning up data prior to a service shutdown. See the workflow [here](./concepts.html#pre-delete)
 
 Service Instance lifecycle errands are configured on a per-plan basis. To enable lifecycle errands, the errand job must be:
 
@@ -517,6 +517,9 @@ Service Instance lifecycle errands are configured on a per-plan basis. To enable
 - Set in the plan's lifecycle errands configuration.
 
 An example manifest snippet configuring lifecycle errands for a plan:
+
+<p class="note warning">The property <code>lifecycle_errands.pre_delete</code> must be specified as an array as of v0.21 of ODB.
+This enables configuration of multiple lifecycle errands.</p>
 
 ```yaml
 service_deployment:
@@ -534,7 +537,7 @@ service_catalog:
           post_deploy:
             name: POST-DEPLOY-ERRAND-JOB
           pre_delete:
-            name: PRE-DELETE-ERRAND-JOB
+          - name: PRE-DELETE-ERRAND-JOB
         instance_groups:
           - name: SERVICE-RELEASE-JOB
             ...
