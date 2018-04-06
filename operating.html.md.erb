@@ -571,7 +571,7 @@ In order to enable a colocated errand, the errand job must be:
 - Set in the plan's lifecycle errands configuration (2).
 - Set the instances where the errand should run on (3).
 
-An example manifest for colocated post-deploy errand looks like the following:
+An example manifest for colocated pre-delete and post-deploy errands looks like the following:
 
 ```yaml
 service_deployment:
@@ -581,10 +581,14 @@ service_deployment:
       jobs:
       - SERVICE-RELEASE-JOB
       - POST-DEPLOY-ERRAND-JOB # (1)
+      - PRE-DELETE-ERRAND-JOB # (1)
 service_catalog:
   plans:
       - name: CF-MARKETPLACE-PLAN-NAME
         lifecycle_errands:
+          pre_delete:
+          - name: PRE-DELETE-ERRAND-JOB # (2)
+            instances: [SERVICE-RELEASE-JOB/0] # (3)
           post_deploy:
             name: POST-DEPLOY-ERRAND-JOB # (2)
             instances: [SERVICE-RELEASE-JOB/0] # (3)
