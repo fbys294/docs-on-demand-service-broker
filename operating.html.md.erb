@@ -361,7 +361,7 @@ service_catalog:
         serial: true # optional
       lifecycle_errands: #optional
         post_deploy:
-          name: ERRAND-NAME #optional
+        - name: ERRAND-NAME #optional
           instances: [INSTANCE-NAME] #optional, for co-locating errand
         pre_delete: ERRAND-NAME #optional
 ```
@@ -535,7 +535,7 @@ service_catalog:
       - name: CF-MARKETPLACE-PLAN-NAME
         lifecycle_errands:
           post_deploy:
-            name: POST-DEPLOY-ERRAND-JOB
+          - name: POST-DEPLOY-ERRAND-JOB
           pre_delete:
           - name: PRE-DELETE-ERRAND-JOB
         instance_groups:
@@ -590,7 +590,7 @@ service_catalog:
           - name: PRE-DELETE-ERRAND-JOB # (2)
             instances: [SERVICE-RELEASE-JOB/0] # (3)
           post_deploy:
-            name: POST-DEPLOY-ERRAND-JOB # (2)
+          - name: POST-DEPLOY-ERRAND-JOB # (2)
             instances: [SERVICE-RELEASE-JOB/0] # (3)
         instance_groups:
           - name: SERVICE-RELEASE-JOB
